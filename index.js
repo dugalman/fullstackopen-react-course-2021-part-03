@@ -4,7 +4,6 @@ const cors = require('cors')
 app.use(cors())
 
 
-
 //////////////////////// MIDLEWARE ////////////////////////////////////////////
 // parse los request como json
 app.use(express.json())
@@ -62,8 +61,8 @@ app.post('/api/notes', (request, response) => {
   const body = request.body
 
   if (!body.content) {
-    return response.status(400).json({ 
-      error: 'content missing' 
+    return response.status(400).json({
+      error: 'content missing'
     })
   }
 
