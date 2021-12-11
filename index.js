@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 
 if (process.env && process.env.NODE_ENV) {
-  dotenv.config({path: '.env.' + process.env.NODE_ENV});
+  dotenv.config({ path: '.env.' + process.env.NODE_ENV });
 } else {
   dotenv.config();
 }
@@ -79,7 +79,10 @@ app.get('/api/notes/:id', (request, response) => {
       if (note) { response.json(note) }
       else { response.status(404).end() }
     })
-    .catch(error => next(error))
+    .catch(error => {
+      console.log(error)
+      response.status(400).send({error:'malformatted id'})
+    })
 })
 
 ///////////////////////////////////////////////////////////////////////////////
