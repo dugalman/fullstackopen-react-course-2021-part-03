@@ -1,7 +1,6 @@
 /**
  * @use $ node mongo.js password,
  */
-
 const mongoose = require('mongoose')
 
 if (process.argv.length < 3) {
@@ -11,8 +10,8 @@ if (process.argv.length < 3) {
 
 const password = process.argv[2]
 
-const url =
-    `mongodb+srv://fullstack:${password}@cluster0.sdlbf.mongodb.net/note-app?retryWrites=true&w=majority`
+// const url =`mongodb+srv://fullstack:${password}@cluster0.sdlbf.mongodb.net/note-app?retryWrites=true&w=majority`
+const url =`mongodb://localhost:27011/note-app?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false`
 
 mongoose.connect(url)
 
@@ -29,7 +28,6 @@ const note = new Note({
     date: new Date(),
     important: true,
 })
-
 
 // note.save().then(result => {
 //     console.log('note saved!')
