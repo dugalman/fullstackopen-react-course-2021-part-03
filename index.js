@@ -54,10 +54,8 @@ app.post('/api/notes', (request, response, next) => {
   note
     .save()
     .then(savedNote => savedNote.toJSON())
-    .then(savedAndFormattedNote => {
-      response.json(savedAndFormattedNote)
-    }) 
-    .catch(error => next(error)) 
+    .then(savedAndFormattedNote => { response.json(savedAndFormattedNote) })
+    .catch(error => next(error))
 })
 
 app.get('/api/notes/:id', (request, response, next) => {
