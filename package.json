@@ -10,7 +10,8 @@
     "deploy": "git push heroku main --force",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
     "logs:prod": "heroku logs --tail",
-    "heroku:start":"heroku ps:scale web=1 && heroku open"
+    "heroku:start":"heroku ps:scale web=1 && heroku open",
+    "heroku:local":"heroku local --env=.end.development"
 
   },
   "author": "Damian Mac Dougall",
