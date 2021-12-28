@@ -10,9 +10,9 @@
     "deploy": "git push heroku main --force",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
     "logs:prod": "heroku logs --tail",
-    "heroku:start":"heroku ps:scale web=1 && heroku open",
-    "heroku:local":"heroku local --env=.end.development"
-
+    "heroku:start": "heroku ps:scale web=1 && heroku open",
+    "heroku:local": "heroku local --env=.end.development",
+    "lint": "eslint ."
   },
   "author": "Damian Mac Dougall",
   "license": "MIT",
@@ -23,6 +23,7 @@
     "mongoose": "^6.0.14"
   },
   "devDependencies": {
+    "eslint": "^8.5.0",
     "nodemon": "^2.0.15"
   }
 }
