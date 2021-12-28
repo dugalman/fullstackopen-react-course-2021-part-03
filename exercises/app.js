@@ -7,7 +7,7 @@ const app = express()
 const cors = require('cors')
 
 
-const blogsRouter = require('./controllers/BlogsController')
+const blogsRouter = require('./controllers/blogsController')
 
 
 const mongoUrl = config.MONGODB_URI
