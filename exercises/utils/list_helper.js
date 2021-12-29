@@ -8,7 +8,7 @@ const totalLikes = (blogs) => {
         : blogs.reduce((sum, item) => sum + item.likes, 0)
 }
 
-const favoriteBlog_oldSchool = (blogs) => {
+const favoriteBlogVanilla = (blogs) => {
     if (blogs.length === 0) return {}
 
     let max = { likes: 0 }
@@ -24,14 +24,36 @@ const favoriteBlog_oldSchool = (blogs) => {
 const favoriteBlog = (blogs) => {
     if (blogs.length === 0) return {}
 
-    return blogs.reduce( (prev, current) => {
+    return blogs.reduce((prev, current) => {
         return (prev.likes > current.likes) ? prev : current
-    }) 
+    })
+}
+
+function mostBlogs(blogs) {
+
+    const max = { author: '', blogs: 0 }
+
+    const acumulator = {}
+    for (let i = 0; i < blogs.length; i++) {
+        let actual = blogs[i]
+
+        acumulator[actual.author] = (acumulator[actual.author] === undefined)
+            ? 1
+            : acumulator[actual.author] + 1
+
+        if (acumulator[actual.author] > max.blogs) {
+            max.blogs = acumulator[actual.author]
+            max.author = actual.author
+        }
+    }
+
+    return max
 }
 
 module.exports = {
     dummy,
     totalLikes,
-    favoriteBlog
+    favoriteBlog,
+    mostBlogs
 }
 
