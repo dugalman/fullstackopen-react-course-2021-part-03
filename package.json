@@ -12,7 +12,8 @@
     "logs:prod": "heroku logs --tail",
     "heroku:start": "heroku ps:scale web=1 && heroku open",
     "heroku:local": "heroku local --env=.end.development",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "jest --verbose"
   },
   "author": "Damian Mac Dougall",
   "license": "MIT",
@@ -24,6 +25,10 @@
   },
   "devDependencies": {
     "eslint": "^8.5.0",
+    "jest": "^27.4.5",
     "nodemon": "^2.0.15"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
