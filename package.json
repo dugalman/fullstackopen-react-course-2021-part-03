@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development nodemon index.js",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
     "build:ui": "rm -rf build && cd ~/Documentos/Customers/CLIENTE_DUGALMAN/fullstackopen.com/fullstack/part2/doc  && npm run build --prod && cp -r build  ~/Documentos/Customers/CLIENTE_DUGALMAN/fullstackopen.com/fullstackopen-react-course-2021-part-03",
     "deploy": "git push heroku main --force",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
@@ -13,7 +13,7 @@
     "heroku:start": "heroku ps:scale web=1 && heroku open",
     "heroku:local": "heroku local --env=.end.development",
     "lint": "eslint .",
-    "test": "jest --verbose"
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand"
   },
   "author": "Damian Mac Dougall",
   "license": "MIT",
@@ -24,6 +24,7 @@
     "mongoose": "^6.0.14"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^8.5.0",
     "jest": "^27.4.5",
     "nodemon": "^2.0.15"
