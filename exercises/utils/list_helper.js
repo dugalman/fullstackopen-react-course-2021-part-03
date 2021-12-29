@@ -10,6 +10,16 @@ const totalLikes = (blogs) => {
 
 const favoriteBlog = (blogs) => {
     if (blogs.length === 0) return {}
+
+    let max = { likes: 0 }
+
+    for (let i = 0; i < blogs.length; i++) {
+        if (max.likes < blogs[i].likes) {
+            max = blogs[i]
+        }
+    }
+
+    return max
 }
 
 
