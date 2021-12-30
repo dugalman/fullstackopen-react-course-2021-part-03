@@ -20,7 +20,7 @@ beforeEach(async () => {
 })
 
 
-describe.only('PART 04 :api ', () => {
+describe('PART 04 :api ', () => {
 
   test('notes are returned as json', async () => {
     await api
