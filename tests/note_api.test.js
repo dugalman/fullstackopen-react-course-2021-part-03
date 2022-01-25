@@ -83,6 +83,7 @@ describe('PART 04 :api ', () => {
   })
 })
 
+// A continuación, escribamos pruebas para obtener una nota individual:
 test('a specific note can be viewed', async () => {
   const notesAtStart = await helper.notesInDb()
 
@@ -98,6 +99,7 @@ test('a specific note can be viewed', async () => {
   expect(resultNote.body).toEqual(processedNoteToView)
 })
 
+// A continuación, escribamos pruebas para eliminar una nota individual:
 test('a note can be deleted', async () => {
   const notesAtStart = await helper.notesInDb()
   const noteToDelete = notesAtStart[0]
