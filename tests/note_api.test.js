@@ -47,6 +47,7 @@ describe('PART 04 :api ', () => {
     expect(contents).toContain('Browser can execute only Javascript')
   })
 
+  // Escribamos una prueba que agregue una nueva nota y verifique que la cantidad de notas devueltas por la API aumente y que la nota recién agregada esté en la lista.
   test('a valid note can be added', async () => {
     const newNote = {
       content: 'async/await simplifies making async calls',
