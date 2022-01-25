@@ -7,7 +7,9 @@
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development nodemon index.js",
     "lint": "eslint .",
-    "test": "NODE_ENV=test jest --verbose --runInBand"
+    "test": "NODE_ENV=test jest --verbose --runInBand",
+    "test_API":"test -- test/note_api.test.js"
+
   },
   "author": "",
   "license": "MIT",
