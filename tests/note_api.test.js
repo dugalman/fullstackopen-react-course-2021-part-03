@@ -37,8 +37,7 @@ beforeEach(async () => {
   /**
    * Aún se puede acceder a los valores devueltos de cada promesa en la matriz cuando se usa el método Promise.all. Si esperamos a que se resuelvan las promesas con la sintaxis "await const results = await Promise.all (promiseArray)"", la operación devolverá una matriz que contiene los valores resueltos para cada promesa en promiseArray, y aparecen en el mismo orden que las promesas en la matr
    */
-   const results = await Promise.all(promiseArray)
-  console.log(results)
+  await Promise.all(promiseArray)
 })
 
 
