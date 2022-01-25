@@ -67,6 +67,7 @@ describe('PART 04 :api ', () => {
     expect(contents).toContain('async/await simplifies making async calls')
   })
 
+  // Escribamos también una prueba que verifique que una nota sin contenido no se guardará en la base de datos.
   test('note without content is not added', async () => {
     const newNote = {
       important: true
