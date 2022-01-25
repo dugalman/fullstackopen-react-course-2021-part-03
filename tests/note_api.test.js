@@ -10,13 +10,35 @@ const Note = require('../models/note')
 
 // SET DATABASE
 beforeEach(async () => {
+
+  /**
+   * A pesar de nuestra uso de la sintaxis async/await, nuestra solución no funciona como esperábamos. ¡La ejecución de la prueba comienza antes de que se inicialice la base de datos!
+   * 
+   * El problema es que cada iteración del bucle forEach genera su propia operación asincrónica, y beforeEach no esperará a que terminen de ejecutarse. En otras palabras, los comandos await definidos dentro del bucle forEach no están en la función beforeEach, sino en funciones separadas que beforeEach no esperará.
+   * 
+   * Dado que la ejecución de las pruebas comienza inmediatamente después de que beforeEach haya terminado de ejecutarse, la ejecución de las pruebas comienza antes de que se inicialice el estado de la base de datos.
+   * 
+   */
+  // await Note.deleteMany({})
+  // console.log('cleared')
+
+  // helper.initialNotes.forEach(async (note) => {
+  //   let noteObject = new Note(note)
+  //   await noteObject.save()
+  //   console.log('saved')
+  // })
+  // console.log('done')
+
+  // Una forma de arreglar esto es esperar a que todas las operaciones asincrónicas terminen de ejecutarse con el método Promise.all:
   await Note.deleteMany({})
-
   const noteObjects = helper.initialNotes.map(note => new Note(note))
-  
   const promiseArray = noteObjects.map(note => note.save())
-  await Promise.all(promiseArray)
-
+  
+  /**
+   * Aún se puede acceder a los valores devueltos de cada promesa en la matriz cuando se usa el método Promise.all. Si esperamos a que se resuelvan las promesas con la sintaxis "await const results = await Promise.all (promiseArray)"", la operación devolverá una matriz que contiene los valores resueltos para cada promesa en promiseArray, y aparecen en el mismo orden que las promesas en la matr
+   */
+   const results = await Promise.all(promiseArray)
+  console.log(results)
 })
 
 
