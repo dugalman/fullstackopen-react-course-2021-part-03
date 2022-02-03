@@ -1,5 +1,7 @@
+const res = require('express/lib/response')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const Blog = require('../models/Blog.js')
 
 const app = require('../app')
 const api = supertest(app)
@@ -24,9 +26,20 @@ describe('PART 04 :api ', () => {
 
     })
 
-    test('Cantidad correcta de blog', async() =>{
+    test('Cantidad correcta de blog', async () => {
         const response = await api.get('/api/blogs')
         expect(response.body).toHaveLength(6)
+    })
+
+    test('The unique identifier property of the blog posts is by default _id', async () => {
+        const blogs = await Blog.find({})
+        expect(blogs[0]._id).toBeDefined()
+    })
+
+    test('The blog must be id property', async () => {
+        const response = await api.get('/api/blogs')
+        console.log(response.body[0])
+        expect(response.body[0].id).toBeDefined()
     })
 
 })
