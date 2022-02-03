@@ -19,6 +19,14 @@ app.use(cors())
 app.use(express.json())
 app.use(middleware.requestLogger)
 
+app.use(function(req, res, next){
+    res.setTimeout(120000, function(){
+        console.log('Request has timed out.')
+        res.send(408)
+    })
+    next()
+})
+
 app.use('/api/blogs',blogsRouter)
 
 app.use(middleware.unknownEndpoint)
