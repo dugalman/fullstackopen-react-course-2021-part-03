@@ -82,7 +82,6 @@ describe('PART 04 :api blog', () => {
 
 
     test('Responde code 400 por falta de title y url al agregar un nuevo blog', async () => {
-
         const newBlog = {
             'author': 'damian mac dougall',
             'likes': 99
@@ -95,17 +94,49 @@ describe('PART 04 :api blog', () => {
 
     })
 
-    test('Borrar un blog', async () => {
-        const unBlogABorrar = helper.listOfBlogs[1]
+    describe('Update a blog', () => {
 
+        test('Blog update successful ', async () => {
+            const unBlogAActualizar = helper.listOfBlogs[1]
+            const ID = unBlogAActualizar._id
+            
+            //incremento la cantidad de likes
+            const updatedBlog = {
+                ...unBlogAActualizar,
+                likes: unBlogAActualizar.likes + 1
+            }
 
-        await api.delete(`/api/blogs/${unBlogABorrar._id}`)
-            .expect(204)
+            //busco el registro actual
+            const response = await api
+                .put(`/api/blogs/${ID}`)
+                .send(updatedBlog)
+                .expect(200)
+                .expect('Content-Type', /application\/json/)
 
-        const todosLosBlogs = (await Blog.find({}))
-        expect(todosLosBlogs).toHaveLength(helper.listOfBlogs.length - 1)
+            //reviso en la base
+            const blogsAtEnd = await Blog.findById(ID)
+            expect(blogsAtEnd._id.toString()).toBe(ID)
+            expect(blogsAtEnd.likes).toBe(unBlogAActualizar.likes+1)
+            expect(blogsAtEnd.likes).toBe(response.body.likes)
+
+        })
+
 
     })
+
+    describe('Deletion of a blog', () => {
+        test('Succesull delete with status 204', async () => {
+            const unBlogABorrar = helper.listOfBlogs[1]
+
+            await api.delete(`/api/blogs/${unBlogABorrar._id}`)
+                .expect(204)
+
+            const todosLosBlogs = (await Blog.find({}))
+            expect(todosLosBlogs).toHaveLength(helper.listOfBlogs.length - 1)
+        })
+    })
+
+
 
 })
 
