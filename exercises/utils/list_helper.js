@@ -17,7 +17,6 @@ const favoriteBlog = (blogs) => {
 }
 
 function mostBlogs(blogs) {
-
     const max = { author: '', blogs: 0 }
 
     const acumulator = {}
