@@ -75,12 +75,27 @@ describe('PART 04 :api blog', () => {
         const ID = '5a422a851b54a676234d17f6'
 
         const blog = response.body.find(b => b.id === ID)
-
         expect(blog.id).toBe(ID)
         expect(response.body[0].likes).toBeDefined()
         expect(response.body[0].likes).toBe(0)
+    })
+
+
+    test('Responde code 400 por falta de title y url al agregar un nuevo blog', async () => {
+
+        const newBlog = {
+            'author': 'damian mac dougall',
+            'likes': 99
+        }
+        await api.
+            post('/api/blogs')
+            .send(newBlog)
+            .expect(400)
+            .expect('Content-Type', 'application/json; charset=utf-8')
 
     })
+
+
 
 })
 
