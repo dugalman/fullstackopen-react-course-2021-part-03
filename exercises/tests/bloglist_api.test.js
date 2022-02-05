@@ -1,22 +1,23 @@
-const res = require('express/lib/response')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
-const Blog = require('../models/Blog.js')
+
 
 const app = require('../app')
 const api = supertest(app)
 
+const Blog = require('../models/Blog.js')
+const helper = require('./test_helper')
+
 // SET DATABASE
 beforeEach(async () => {
-
-    // await Note.deleteMany({})
-    // const noteObjects = helper.initialNotes.map(note => new Note(note))
-    // const promiseArray = noteObjects.map(note => note.save())
-    // await Promise.all(promiseArray)
+    await Blog.deleteMany({})
+    const listObjects = helper.listOfBlogs.map(blog => new Blog(blog))
+    const promiseArray = listObjects.map(blog => blog.save())
+    await Promise.all(promiseArray)
 })
 
 
-describe('PART 04 :api ', () => {
+describe('PART 04 :api blog', () => {
 
     test('blogs are returned as json', async () => {
         await api
@@ -28,18 +29,46 @@ describe('PART 04 :api ', () => {
 
     test('Cantidad correcta de blog', async () => {
         const response = await api.get('/api/blogs')
-        expect(response.body).toHaveLength(6)
+        expect(response.body).toHaveLength(helper.listOfBlogs.length)
     })
 
-    test('The unique identifier property of the blog posts is by default _id', async () => {
+    test('En la base de datos el blog debe tener un identificador llamado _id', async () => {
         const blogs = await Blog.find({})
         expect(blogs[0]._id).toBeDefined()
     })
 
-    test('The blog must be id property', async () => {
+    test('En la api el bog debe tener un identificador llamado id', async () => {
         const response = await api.get('/api/blogs')
-        console.log(response.body[0])
         expect(response.body[0].id).toBeDefined()
+    })
+
+    test('Agregar un nuevo blog', async () => {
+
+
+        const blogsBefore = (await Blog.find({})).length
+
+        const newBlog = {
+            'title': 'titulo 1',
+            'author': 'damian mac dougall',
+            'url': 'www.yahoo.com',
+            'likes': 9
+        }
+        const response = await api.
+            post('/api/blogs')
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+
+        //verifico que hay un elemento mas 
+        const blogsAfter = (await Blog.find({})).length
+        expect(blogsAfter).toBe(blogsBefore+1)
+
+        //verifico el objeto devuelto
+        expect(response.body.title).toBe(newBlog.title)
+        expect(response.body.author).toBe(newBlog.author)
+        expect(response.body.url).toBe(newBlog.url)
+
+        console.log(response.body)
     })
 
 })
