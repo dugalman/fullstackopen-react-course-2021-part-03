@@ -14,11 +14,16 @@ blogsRouter.post('/', async (request, response) => {
         return response.status(400).json({ error: 'Bad Request' })
     }
 
-    const blog = new Blog(request.body)
+    const blog = new Blog(body)
 
     const result = await blog.save()
     return response.status(201).json(result)
-
 })
+
+blogsRouter.delete('/:id', async (request, response) => {
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+})
+  
 
 module.exports = blogsRouter

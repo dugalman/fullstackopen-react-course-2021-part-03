@@ -95,7 +95,17 @@ describe('PART 04 :api blog', () => {
 
     })
 
+    test('Borrar un blog', async () => {
+        const unBlogABorrar = helper.listOfBlogs[1]
 
+
+        await api.delete(`/api/blogs/${unBlogABorrar._id}`)
+            .expect(204)
+
+        const todosLosBlogs = (await Blog.find({}))
+        expect(todosLosBlogs).toHaveLength(helper.listOfBlogs.length - 1)
+
+    })
 
 })
 
