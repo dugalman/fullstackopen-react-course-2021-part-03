@@ -61,15 +61,23 @@ describe('PART 04 :api blog', () => {
 
         //verifico que hay un elemento mas 
         const blogsAfter = (await Blog.find({})).length
-        expect(blogsAfter).toBe(blogsBefore+1)
+        expect(blogsAfter).toBe(blogsBefore + 1)
 
         //verifico el objeto devuelto
         expect(response.body.title).toBe(newBlog.title)
         expect(response.body.author).toBe(newBlog.author)
         expect(response.body.url).toBe(newBlog.url)
-
-        console.log(response.body)
     })
+
+
+    // test('propiedad likes por defecto con valor 0', async () => {
+    //     const id = '5a422a851b54a676234d17f6'
+    //     const response = await api.get('/api/blogs/${id}')
+    //     expect(response.body[0].id).toBe(id)
+    //     expect(response.body[0].likes).toBeDefined()
+    //     expect(response.body[0].likes).toBe(0)
+
+    // })
 
 })
 
