@@ -70,14 +70,17 @@ describe('PART 04 :api blog', () => {
     })
 
 
-    // test('propiedad likes por defecto con valor 0', async () => {
-    //     const id = '5a422a851b54a676234d17f6'
-    //     const response = await api.get('/api/blogs/${id}')
-    //     expect(response.body[0].id).toBe(id)
-    //     expect(response.body[0].likes).toBeDefined()
-    //     expect(response.body[0].likes).toBe(0)
+    test('propiedad likes por defecto con valor 0', async () => {
+        const response = await api.get('/api/blogs')
+        const ID = '5a422a851b54a676234d17f6'
 
-    // })
+        const blog = response.body.find(b => b.id === ID)
+
+        expect(blog.id).toBe(ID)
+        expect(response.body[0].likes).toBeDefined()
+        expect(response.body[0].likes).toBe(0)
+
+    })
 
 })
 
