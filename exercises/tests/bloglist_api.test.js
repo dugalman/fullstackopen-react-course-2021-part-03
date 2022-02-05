@@ -76,8 +76,8 @@ describe('PART 04 :api blog', () => {
 
         const blog = response.body.find(b => b.id === ID)
         expect(blog.id).toBe(ID)
-        expect(response.body[0].likes).toBeDefined()
-        expect(response.body[0].likes).toBe(0)
+        expect(blog.likes).toBeDefined()
+        expect(blog.likes).toBe(0)
     })
 
 
