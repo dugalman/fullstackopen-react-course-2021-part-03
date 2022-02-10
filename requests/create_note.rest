@@ -2,7 +2,7 @@ POST http://localhost:3001/api/notes/
 Content-Type: application/json
 
 {
-    "content": "Theser id of the creator is at the start senf along the request",
+    "content": "User id of the creator is at the start senf along the request",
     "important": true,
     "userId": "6204faaa8be0dac9c6e80eb3"
 }
