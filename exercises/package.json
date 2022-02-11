@@ -8,6 +8,7 @@
     "dev": "NODE_ENV=development nodemon index.js",
     "lint": "eslint .",
     "test": "NODE_ENV=test jest --verbose --runInBand",
+    "coverage": "NODE_ENV=test jest --coverage",
     "test_API": "test -- test/user_api.test.js",
     "kill": "lsof -ti:3003 | xargs kill"
   },
