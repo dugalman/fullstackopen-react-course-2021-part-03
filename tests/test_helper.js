@@ -1,7 +1,6 @@
 const Note = require('../models/note')
 const User = require('../models/user')
 
-
 const initialNotes = [
   {
     content: 'HTML is easy',
@@ -37,5 +36,5 @@ module.exports = {
   initialNotes,
   nonExistingId,
   notesInDb,
-  usersInDb
+  usersInDb,
 }
