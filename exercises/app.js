@@ -9,6 +9,7 @@ const cors = require('cors')
 
 
 const blogsRouter = require('./controllers/blogsController')
+const usersRouter = require('./controllers/usersController')
 
 
 const mongoUrl = config.MONGODB_URI
@@ -28,6 +29,7 @@ app.use(function(req, res, next){
 })
 
 app.use('/api/blogs',blogsRouter)
+app.use('/api/users',usersRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
