@@ -98,8 +98,6 @@ describe('User api: CREATE', () => {
             .expect('Content-Type', 'application/json; charset=utf-8')
 
         expect(response.body.error).toBe('User validation failed: password is shorter than the minimum allowed length (3)')
-
-
     })
 
     test('fails because the username was not sent', async () => {
