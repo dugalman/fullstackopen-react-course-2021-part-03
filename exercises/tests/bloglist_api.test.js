@@ -5,14 +5,15 @@ const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/Blog.js')
+const User = require('../models/User.js')
 const helper = require('./test_helper')
 
 // SET DATABASE
 beforeEach(async () => {
     await Blog.deleteMany({})
-    const listObjects = helper.listOfBlogs.map(blog => new Blog(blog))
-    const promiseArray = listObjects.map(blog => blog.save())
-    await Promise.all(promiseArray)
+    const listObjectsBlogs = helper.listOfBlogs.map(blog => new Blog(blog))
+    const promiseArrayBlogs = listObjectsBlogs.map(blog => blog.save())
+    await Promise.all(promiseArrayBlogs)
 })
 
 
@@ -49,6 +50,7 @@ describe('Blog api: CREATE', () => {
             'url': 'www.yahoo.com',
             'likes': 98
         }
+        
         const response = await api.
             post('/api/blogs')
             .send(newBlog)

@@ -5,8 +5,8 @@ const usersRouter = require('express').Router()
 const User = require('../models/User')
 
 usersRouter.get('/', async (request, response) => {
-    const blogs = await User.find({})
-    return response.json(blogs)
+    const users = await User.find({})
+    return response.json(users.map(u => u.toJSON()))
 })
 
 
@@ -41,8 +41,6 @@ usersRouter.post('/', async (request, response, next) => {
 
 
     try {
-
-
         const savedUser = await user.save()
         response.status(201).json(savedUser)
     } catch (error) {
