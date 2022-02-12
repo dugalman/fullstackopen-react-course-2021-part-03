@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 
-
 const app = require('../app')
 const api = supertest(app)
 
@@ -17,14 +16,13 @@ beforeEach(async () => {
 })
 
 
-describe('PART 04 :api blog', () => {
+describe('Blog api: CREATE', () => {
 
     test('blogs are returned as json', async () => {
         await api
             .get('/api/blogs')
             .expect(200)
             .expect('Content-Type', 'application/json; charset=utf-8')
-
     })
 
     test('Cantidad correcta de blog', async () => {
@@ -43,15 +41,13 @@ describe('PART 04 :api blog', () => {
     })
 
     test('Agregar un nuevo blog', async () => {
-
-
         const blogsBefore = (await Blog.find({})).length
 
         const newBlog = {
             'title': 'titulo 1',
             'author': 'damian mac dougall',
             'url': 'www.yahoo.com',
-            'likes': 9
+            'likes': 98
         }
         const response = await api.
             post('/api/blogs')
@@ -67,19 +63,54 @@ describe('PART 04 :api blog', () => {
         expect(response.body.title).toBe(newBlog.title)
         expect(response.body.author).toBe(newBlog.author)
         expect(response.body.url).toBe(newBlog.url)
+        expect(response.body.likes).toBe(98)
     })
 
+    test('Agregar un nuevo blog sin la propiedad like', async () => {
+        const blogsBefore = (await Blog.find({})).length
 
-    test('propiedad likes por defecto con valor 0', async () => {
+        const newBlog = {
+            'title': 'titulo 1',
+            'author': 'damian mac dougall',
+            'url': 'www.yahoo.com',
+        }
+        const response = await api.
+            post('/api/blogs')
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+
+        //verifico que hay un elemento mas 
+        const blogsAfter = (await Blog.find({})).length
+        expect(blogsAfter).toBe(blogsBefore + 1)
+
+        //verifico el objeto devuelto
+        expect(response.body.title).toBe(newBlog.title)
+        expect(response.body.author).toBe(newBlog.author)
+        expect(response.body.url).toBe(newBlog.url)
+        expect(response.body.likes).toBe(0)
+    })
+
+    test('Propiedad likes por defecto con valor 0', async () => {
+
+        //cuando lo creo 
+        const newBlog = await api.
+            post('/api/blogs')
+            .send({'title': 'SIN LIKES','author': 'damian mac dougall','url': 'www.yahoo.com',})
+            .expect(201)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+
+        expect(newBlog.body.likes).toBe(0)
+
+        //cuando leo
         const response = await api.get('/api/blogs')
-        const ID = '5a422a851b54a676234d17f6'
+        const ID = newBlog.body.id
 
         const blog = response.body.find(b => b.id === ID)
         expect(blog.id).toBe(ID)
         expect(blog.likes).toBeDefined()
         expect(blog.likes).toBe(0)
     })
-
 
     test('Responde code 400 por falta de title y url al agregar un nuevo blog', async () => {
         const newBlog = {
@@ -91,10 +122,9 @@ describe('PART 04 :api blog', () => {
             .send(newBlog)
             .expect(400)
             .expect('Content-Type', 'application/json; charset=utf-8')
-
     })
 
-    describe('Update a blog', () => {
+    describe('Blog api :: Update a blog', () => {
 
         test('Blog update successful ', async () => {
             const unBlogAActualizar = helper.listOfBlogs[1]
@@ -118,10 +148,7 @@ describe('PART 04 :api blog', () => {
             expect(blogsAtEnd._id.toString()).toBe(ID)
             expect(blogsAtEnd.likes).toBe(unBlogAActualizar.likes+1)
             expect(blogsAtEnd.likes).toBe(response.body.likes)
-
         })
-
-
     })
 
     describe('Deletion of a blog', () => {
@@ -135,8 +162,6 @@ describe('PART 04 :api blog', () => {
             expect(todosLosBlogs).toHaveLength(helper.listOfBlogs.length - 1)
         })
     })
-
-
 
 })
 

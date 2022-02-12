@@ -70,6 +70,8 @@ describe('User api: CREATE', () => {
         //verifico el objeto devuelto
         expect(response.body.name).toBe(newUser.name)
         expect(response.body.username).toBe(newUser.username)
+        expect(response.body.blogs).toStrictEqual([])
+
     })
 
     test('fails because the username must have more than 3 characters', async () => {

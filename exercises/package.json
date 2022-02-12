@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "test": "NODE_ENV=test jest --verbose --runInBand",
     "coverage": "NODE_ENV=test jest --coverage",
-    "test_API": "test -- test/user_api.test.js",
+    "test_API": "test -- test/bloglist_api.test.js",
     "kill": "lsof -ti:3003 | xargs kill"
   },
   "author": "",

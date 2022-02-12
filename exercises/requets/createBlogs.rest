@@ -5,5 +5,5 @@ Content-Type: application/json
     "title": "titulo 1",
     "author": "damian mac dougall",
     "url": "www.yahoo.com",
-    "likes": 9
+    "likes": 98
 }
