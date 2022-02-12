@@ -47,7 +47,7 @@ describe('User api: READ', () => {
 
 describe('User api: CREATE', () => {
 
-    test('Agregar un nuevo user', async () => {
+    test('Add new user successfull', async () => {
 
         const usersBefore = (await User.find({})).length
 
@@ -72,8 +72,74 @@ describe('User api: CREATE', () => {
         expect(response.body.username).toBe(newUser.username)
     })
 
+    test('fails because the username must have more than 3 characters', async () => {
 
-    test('Falla porque el username ya existe', async () => {
+        const user = {
+            'name': 'usermane to short',
+            'password': 'usermaneToShort',
+            'username': 'A'
+        }
+        const response = await api.post('/api/users').send(user)
+            .expect(400)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+
+        expect(response.body.error).toBe('User validation failed: username is shorter than the minimum allowed length (3)')
+    })
+
+    test('fails because the password must have more than 3 characters', async () => { 
+
+        const user = {
+            'name': 'password to short',
+            'username': 'passwordToShort',
+            'password': 'A'
+        }
+        const response = await api.post('/api/users').send(user)
+            .expect(400)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+
+        expect(response.body.error).toBe('User validation failed: password is shorter than the minimum allowed length (3)')
+
+
+    })
+
+    test('fails because the username was not sent', async () => {
+        const user = {
+            'name': 'not sent username',
+            'password': 'notSentUsername',
+        }
+        const response = await api.post('/api/users').send(user)
+            .expect(400)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+
+        expect(response.body.error).toBe('User validation failed: username is required')
+    })
+
+    test('fails because the username is empty string', async () => {
+        const user = {
+            'name': 'sent username empty',
+            'password': 'sentUsernameEmpty',
+            'username':''
+        }
+        const response = await api.post('/api/users').send(user)
+            .expect(400)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+
+        expect(response.body.error).toBe('User validation failed: username is required')
+    })
+
+    test('fails because the password was not sent', async () => {
+        const user = {
+            'name': 'not sent password',
+            'username': 'notSentPassword',
+        }
+        const response = await api.post('/api/users').send(user)
+            .expect(400)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+
+        expect(response.body.error).toBe('User validation failed: password is required')
+    })
+
+    test('Fail because username must be unique', async () => {
 
         const userOne = {
             'name': 'Sulema Beatriz  Bossert',

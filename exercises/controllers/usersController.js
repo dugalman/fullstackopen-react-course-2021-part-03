@@ -10,10 +10,26 @@ usersRouter.get('/', async (request, response) => {
 })
 
 
-usersRouter.post('/', async (request, response,next) => {
+usersRouter.post('/', async (request, response, next) => {
 
     const body = request.body
 
+    if (!body.password) {
+        return response.status(400).json({ error: 'User validation failed: password is required' })
+    }
+
+    if (!body.username) {
+        return response.status(400).json({ error: 'User validation failed: username is required' })
+    }
+
+    if (body.password.length < 3) {
+        return response.status(400).json({ error: 'User validation failed: password is shorter than the minimum allowed length (3)' })
+    }
+
+    if (body.username.length < 3) {
+        return response.status(400).json({ error: 'User validation failed: username is shorter than the minimum allowed length (3)' })
+    }
+    
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
@@ -23,15 +39,16 @@ usersRouter.post('/', async (request, response,next) => {
         passwordHash,
     })
 
+
     try {
+
+
         const savedUser = await user.save()
-        response.status(201).json(savedUser)        
+        response.status(201).json(savedUser)
     } catch (error) {
-        logger.error('user::post ',error)
+        // logger.error('user::post ', error)
         next(error)
     }
-
-
 })
 
 
