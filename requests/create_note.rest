@@ -1,8 +1,7 @@
 POST http://localhost:3001/api/notes/
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVrYWkiLCJpZCI6IjYyMDY3Y2M1ZjFlMWMyYTlhMzUzOWQ0MiIsImlhdCI6MTY0NDU5MzYwNn0.Y9FW-acl-vQVgSTNPxfcwaeq6M0CGsJlZgSObHX-T3I
 
 {
-    "content": "Simgle Page Apps use token",
+    "content": "lol",
     "important": true
 }
