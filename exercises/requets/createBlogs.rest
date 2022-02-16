@@ -2,8 +2,10 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
+    "url": "www.yahoo.com",
     "title": "titulo 1",
     "author": "damian mac dougall",
-    "url": "www.yahoo.com",
+    "user": "620d4be7bceba745428f8e6a",
     "likes": 98
+    
 }

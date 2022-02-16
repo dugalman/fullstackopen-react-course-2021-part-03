@@ -10,8 +10,12 @@ blogsRouter.post('/', async (request, response) => {
 
     const body = request.body
 
-    if (!body.title && !body.url) {
-        return response.status(400).json({ error: 'Bad Request' })
+    if (!body.title) {
+        return response.status(400).json({ error: 'Blog validation failed: title is required' })
+    }
+    
+    if (!body.url) {
+        return response.status(400).json({ error: 'Blog validation failed: url is required' })
     }
 
     if (!body.likes) {
@@ -22,7 +26,8 @@ blogsRouter.post('/', async (request, response) => {
         title: body.title,
         author: body.author,
         url: body.url,
-        likes: body.likes
+        likes: body.likes,
+        user: body.user
     })
 
     const savedBlog = await blog.save()

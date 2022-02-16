@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 3,
     },
+    blogs: [String]
 })
 
 userSchema.set('toJSON', {
