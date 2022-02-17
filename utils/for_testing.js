@@ -1,4 +1,4 @@
-const reverse = (string) => {
+const palindrome = (string) => {
   return string
     .split('')
     .reverse()
@@ -16,6 +16,6 @@ const average = (array) => {
 }
 
 module.exports = {
-  reverse,
+  palindrome,
   average,
 }
