@@ -1,14 +1,15 @@
 const supertest = require('supertest')
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
+
 const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
-const bcrypt = require('bcrypt')
+
 const User = require('../models/user')
 const Note = require('../models/note')
 
 describe('when there is initially some notes saved', () => {
-  
   beforeEach(async () => {
     await Note.deleteMany({})
     await Note.insertMany(helper.initialNotes)
@@ -47,7 +48,7 @@ describe('when there is initially some notes saved', () => {
         .get(`/api/notes/${noteToView.id}`)
         .expect(200)
         .expect('Content-Type', /application\/json/)
-      
+
       const processedNoteToView = JSON.parse(JSON.stringify(noteToView))
 
       expect(resultNote.body).toEqual(processedNoteToView)
@@ -55,6 +56,8 @@ describe('when there is initially some notes saved', () => {
 
     test('fails with statuscode 404 if note does not exist', async () => {
       const validNonexistingId = await helper.nonExistingId()
+
+      console.log(validNonexistingId)
 
       await api
         .get(`/api/notes/${validNonexistingId}`)
@@ -71,7 +74,6 @@ describe('when there is initially some notes saved', () => {
   })
 
   describe('addition of a new note', () => {
-
     test('succeeds with valid data', async () => {
       const newNote = {
         content: 'async/await simplifies making async calls',
@@ -81,7 +83,7 @@ describe('when there is initially some notes saved', () => {
       await api
         .post('/api/notes')
         .send(newNote)
-        .expect(200)
+        .expect(201)
         .expect('Content-Type', /application\/json/)
 
 
@@ -111,7 +113,6 @@ describe('when there is initially some notes saved', () => {
   })
 
   describe('deletion of a note', () => {
-
     test('succeeds with status code 204 if id is valid', async () => {
       const notesAtStart = await helper.notesInDb()
       const noteToDelete = notesAtStart[0]
@@ -155,7 +156,7 @@ describe('when there is initially one user at db', () => {
     await api
       .post('/api/users')
       .send(newUser)
-      .expect(200)
+      .expect(201)
       .expect('Content-Type', /application\/json/)
 
     const usersAtEnd = await helper.usersInDb()
@@ -180,14 +181,13 @@ describe('when there is initially one user at db', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    expect(result.body.error).toContain('`username` to be unique')
+    expect(result.body.error).toContain('username must be unique')
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)
-  })  
+  })
 })
 
-///////////////////////////////////////////////////////////////////////////////
 afterAll(() => {
   mongoose.connection.close()
 })

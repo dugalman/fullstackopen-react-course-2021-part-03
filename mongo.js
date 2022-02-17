@@ -1,42 +1,42 @@
-/**
- * @use $ node mongo.js password,
- */
 const mongoose = require('mongoose')
 
-if (process.argv.length < 3) {
-    console.log('Please provide the password as an argument: node mongo.js <password>')
-    process.exit(1)
+if (process.argv.length<3) {
+  console.log('give password as argument')
+  process.exit(1)
 }
 
 const password = process.argv[2]
 
-// const url =`mongodb+srv://fullstack:${password}@cluster0.sdlbf.mongodb.net/note-app?retryWrites=true&w=majority`
-const url =`mongodb://localhost:27011/note-app?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false`
+const url =
+  `mongodb+srv://fullstack:${password}@cluster0.o1opl.mongodb.net/noteApp?retryWrites=true&w=majority`
 
 mongoose.connect(url)
 
 const noteSchema = new mongoose.Schema({
-    content: String,
-    date: Date,
-    important: Boolean,
+  content: String,
+  date: Date,
+  important: Boolean,
 })
 
 const Note = mongoose.model('Note', noteSchema)
 
 const note = new Note({
-    content: 'HTML is Easy',
-    date: new Date(),
-    important: true,
+  content: 'CSS is hard',
+  date: new Date(),
+  important: false,
 })
 
-// note.save().then(result => {
-//     console.log('note saved!')
-//     mongoose.connection.close()
-// })
-
-Note.find({}).then(result => {
-    result.forEach(note => {
-      console.log(note)
-    })
+// eslint-disable-next-line no-constant-condition
+if ( false ) {
+  note.save().then(() => {
+    console.log('note saved!')
     mongoose.connection.close()
   })
+}
+
+Note.find({}).then(result => {
+  result.forEach(note => {
+    console.log(note)
+  })
+  mongoose.connection.close()
+})
